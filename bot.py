@@ -12,6 +12,24 @@ import time
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 
+import threading
+from flask import Flask  # Asegúrate de tener Flask instalado (pip install flask)
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    """Endpoint básico para verificar que el servidor está en línea."""
+    return "Bot de Discord en línea ✅"
+
+def run_web_server():
+    """Inicia el servidor web en el puerto 8080."""
+    app.run(host='0.0.0.0', port=8080)
+
+# Iniciar el servidor web en un hilo separado
+if __name__ == '__main__':
+    threading.Thread(target=run_web_server, daemon=True).start()
+
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix="!", intents=intents)

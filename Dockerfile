@@ -1,6 +1,6 @@
 FROM python:3.11-slim-bullseye
 
-# Instalar FFmpeg + dependencias para PyNaCl
+# Instalar dependencias
 RUN apt-get update && apt-get install -y \
     ffmpeg \
     libffi-dev \
@@ -10,4 +10,8 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 COPY . .
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Expón el puerto (opcional pero recomendado)
+EXPOSE 8080
+
 CMD ["python", "bot.py"]
