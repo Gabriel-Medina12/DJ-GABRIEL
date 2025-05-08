@@ -1,7 +1,7 @@
-# Usa una imagen de Python con FFmpeg preinstalado
+# Usa una imagen de Python con FFmpeg
 FROM python:3.11-slim-bullseye
 
-# Instalar FFmpeg y dependencias del sistema
+# Instalar FFmpeg y dependencias
 RUN apt-get update && apt-get install -y \
     ffmpeg \
     && rm -rf /var/lib/apt/lists/*
@@ -14,4 +14,4 @@ COPY . .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Comando para iniciar el bot
-CMD ["python", "bot.py"]  # <-- Reemplaza con tu nombre de archivo
+CMD ["python", "bot.py"]  # <-- Reemplaza "bot.py" con tu archivo
