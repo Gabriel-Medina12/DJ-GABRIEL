@@ -2,4 +2,4 @@ discord.py
 python-dotenv
 yt-dlp
 ffmpeg-python
-PyNaCl
+PyNaCl==1.5.0  # <-- Añade esta línea
