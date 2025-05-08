@@ -9,9 +9,6 @@ from collections import deque
 import time
 
 
-load_dotenv()
-TOKEN = os.getenv("DISCORD_TOKEN")
-
 import threading
 from flask import Flask  # Asegúrate de tener Flask instalado (pip install flask)
 
@@ -29,6 +26,10 @@ def run_web_server():
 # Iniciar el servidor web en un hilo separado
 if __name__ == '__main__':
     threading.Thread(target=run_web_server, daemon=True).start()
+
+
+load_dotenv()
+TOKEN = os.getenv("DISCORD_TOKEN")
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -113,6 +114,11 @@ class MusicPlayer:
             'default_search': 'ytsearch',
             'source_address': '0.0.0.0',
             'skip_download': True,
+            'retries': 3,  # <- Añade reintentos
+            'socket_timeout': 30,
+            'http_headers': {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            }
         }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -149,6 +155,12 @@ class MusicPlayer:
             'quiet': True,
             'default_search': 'ytsearch',
             'source_address': '0.0.0.0',
+            'skip_download': True,
+            'retries': 3,  # <- Añade reintentos
+            'socket_timeout': 30,
+            'http_headers': {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            }
         }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -451,6 +463,15 @@ async def play(ctx, *, query):
             embed.set_thumbnail(url=result['thumbnail'])
         
         await ctx.send(embed=embed, view=controls)
+        
+    try:
+        # Verificar si es una URL de YouTube válida
+        if 'youtube.com' not in query and 'youtu.be' not in query:
+            await ctx.send("❌ Solo se admiten enlaces de YouTube")
+            return
+    except Exception as e:
+        await ctx.send(f"Error: El contenido no está disponible o fue eliminado")
+
 
 
 @bot.command()

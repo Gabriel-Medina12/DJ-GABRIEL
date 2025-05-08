@@ -1,6 +1,6 @@
-discord.py
-python-dotenv
-yt-dlp
-ffmpeg-python
+discord.py==2.5.2
+python-dotenv==1.1.0
+yt-dlp==2025.4.30
+ffmpeg-python==0.2.0
 PyNaCl==1.5.0
-flask  # <-- Añade esta línea
+flask==3.0.3
